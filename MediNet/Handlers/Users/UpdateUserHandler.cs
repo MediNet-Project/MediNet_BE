@@ -8,30 +8,28 @@ using System.Numerics;
 
 namespace MediNet.Handlers.Users
 {
-    public class UpdateUserHandler: IRequestHandler<UpdateUserCommand, User>
+    public class UpdateUserHandler: IRequestHandler<UpdateUserCommand, int>
     {
         private readonly IUnitOfWork _unitOfWork;
         public UpdateUserHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<User> Handle(UpdateUserCommand command, CancellationToken cancellationToken)
+        public async Task<int> Handle(UpdateUserCommand command, CancellationToken cancellationToken)
         {
 
-            var user = await _unitOfWork.Repository<User>().GetByIdAsync(command.Id);
-            if (user == null)
-                return default;
-           
-                user.Email = command.Email;
-                user.Password = command.Password;
-                user.Role = command.Role;
-                user.Position = command.Position;
-                user.Phone = command.Phone;
-                user.Image = command.Image;
+            var updateUser = await _unitOfWork.UserRepository.GetUserByIdAsync(command.Id);
+            if (updateUser == null) return default;
 
-            await _unitOfWork.UserRepository.UpdateUserAsync(user);
-            await _unitOfWork.Save(cancellationToken);
-            return user;
+            updateUser.UserName = command.UserName;
+            updateUser.Email = command.Email;
+            updateUser.Password = command.Password;
+            updateUser.Role = command.Role;
+            updateUser.Position = command.Position;
+            updateUser.Phone = command.Phone;
+            updateUser.Image = command.Image;
+            
+            return await _unitOfWork.UserRepository.UpdateUserAsync(updateUser);
         }
     }
 }

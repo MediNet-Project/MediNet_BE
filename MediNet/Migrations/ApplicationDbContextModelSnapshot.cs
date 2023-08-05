@@ -102,67 +102,6 @@ namespace MediNet.Migrations
                     b.ToTable("Followings", (string)null);
                 });
 
-            modelBuilder.Entity("MediNet.Models.Group", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("CreatedBy")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<int?>("GroupState")
-                        .HasColumnType("integer");
-
-                    b.Property<bool?>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Groups", (string)null);
-                });
-
-            modelBuilder.Entity("MediNet.Models.GroupUser", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("GroupId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTimeOffset?>("JoinDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GroupId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("GroupUsers", (string)null);
-                });
-
             modelBuilder.Entity("MediNet.Models.Notification", b =>
                 {
                     b.Property<int>("Id")
@@ -181,9 +120,6 @@ namespace MediNet.Migrations
                     b.Property<int?>("FollowingId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("GroupUserId")
-                        .HasColumnType("integer");
-
                     b.Property<int?>("PostId")
                         .HasColumnType("integer");
 
@@ -198,8 +134,6 @@ namespace MediNet.Migrations
                     b.HasIndex("CommentId");
 
                     b.HasIndex("FollowingId");
-
-                    b.HasIndex("GroupUserId");
 
                     b.HasIndex("PostId");
 
@@ -229,9 +163,6 @@ namespace MediNet.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<int?>("GroupId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Image")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
@@ -243,8 +174,6 @@ namespace MediNet.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("GroupId");
 
                     b.HasIndex("UserId");
 
@@ -297,8 +226,8 @@ namespace MediNet.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("Password")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("Phone")
                         .HasMaxLength(15)
@@ -308,9 +237,20 @@ namespace MediNet.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
+                    b.Property<string>("RefreshToken")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTimeOffset?>("RefreshTokenExpiryTime")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Role")
                         .HasMaxLength(10)
                         .HasColumnType("character varying(10)");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
 
@@ -354,30 +294,6 @@ namespace MediNet.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MediNet.Models.Group", b =>
-                {
-                    b.HasOne("MediNet.Models.User", null)
-                        .WithMany("Groups")
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("MediNet.Models.GroupUser", b =>
-                {
-                    b.HasOne("MediNet.Models.Group", "Group")
-                        .WithMany("GroupUsers")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("MediNet.Models.User", "User")
-                        .WithMany("GroupUsers")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Group");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("MediNet.Models.Notification", b =>
                 {
                     b.HasOne("MediNet.Models.Comment", "Comment")
@@ -388,11 +304,6 @@ namespace MediNet.Migrations
                     b.HasOne("MediNet.Models.Following", "Following")
                         .WithMany("Notifications")
                         .HasForeignKey("FollowingId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("MediNet.Models.GroupUser", "GroupUser")
-                        .WithMany("Notifications")
-                        .HasForeignKey("GroupUserId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MediNet.Models.Post", "Post")
@@ -414,8 +325,6 @@ namespace MediNet.Migrations
 
                     b.Navigation("Following");
 
-                    b.Navigation("GroupUser");
-
                     b.Navigation("Post");
 
                     b.Navigation("Reaction");
@@ -425,17 +334,10 @@ namespace MediNet.Migrations
 
             modelBuilder.Entity("MediNet.Models.Post", b =>
                 {
-                    b.HasOne("MediNet.Models.Group", "Group")
-                        .WithMany("Posts")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("MediNet.Models.User", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Group");
 
                     b.Navigation("User");
                 });
@@ -467,18 +369,6 @@ namespace MediNet.Migrations
                     b.Navigation("Notifications");
                 });
 
-            modelBuilder.Entity("MediNet.Models.Group", b =>
-                {
-                    b.Navigation("GroupUsers");
-
-                    b.Navigation("Posts");
-                });
-
-            modelBuilder.Entity("MediNet.Models.GroupUser", b =>
-                {
-                    b.Navigation("Notifications");
-                });
-
             modelBuilder.Entity("MediNet.Models.Post", b =>
                 {
                     b.Navigation("Attachments");
@@ -500,10 +390,6 @@ namespace MediNet.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Followings");
-
-                    b.Navigation("GroupUsers");
-
-                    b.Navigation("Groups");
 
                     b.Navigation("Notifications");
 

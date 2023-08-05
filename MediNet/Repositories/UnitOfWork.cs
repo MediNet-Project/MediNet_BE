@@ -10,10 +10,14 @@ namespace MediNet.Repositories
         private Hashtable _repositories;
         private bool disposed;
         public IUserRepository UserRepository { get; } 
-        public UnitOfWork(ApplicationDbContext dbContext, IUserRepository userRepository)
+        public ICommentRepository CommentRepository { get; }
+        public IPostRepository PostRepository { get; }
+        public UnitOfWork(ApplicationDbContext dbContext, IUserRepository userRepository, ICommentRepository commentRepository, IPostRepository postRepository)
         {
             _dbContext = dbContext;
             UserRepository = userRepository;
+            CommentRepository = commentRepository;
+            PostRepository = postRepository;
         }
         public void Dispose()
         {

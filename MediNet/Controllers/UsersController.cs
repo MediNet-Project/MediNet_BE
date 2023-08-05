@@ -1,8 +1,10 @@
 ﻿using MediatR;
 using MediNet.Commands.Users;
+using MediNet.Models;
 using MediNet.Queries.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace MediNet.Controllers
 {
@@ -16,32 +18,40 @@ namespace MediNet.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost]
+        [HttpPost("create-user")]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand command)
         {
             await _mediator.Send(command);
             return Ok();
         }
 
-        [HttpGet]
+        [HttpGet("get-list-user")]
         public async Task<IActionResult> GetUserList()
         {
-            var projects =  await _mediator.Send(new GetUserListQuery());
-            return Ok(projects);
+            var listUser =  await _mediator.Send(new GetUserListQuery());
+            return Ok(listUser);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("get-user-detail/{id}")]
         public async Task<IActionResult> GetUserById(int id)
         {
-            var project = await _mediator.Send(new GetUserByIdQuery(id));
-            return Ok(project);
+            var findUser = await _mediator.Send(new GetUserByIdQuery(id));
+            return Ok(findUser);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserCommand command)
+        [HttpPut("update-user")]
+        public async Task<IActionResult> UpdateUser(User user)
         {
-            await _mediator.Send(command);
-            return Ok();
+            var isUserUpdated = await _mediator.Send(new UpdateUserCommand(
+               user.Id,
+               user.UserName,
+               user.Email,
+               user.Password,
+               user.Role,
+               user.Position,
+               user.Phone,
+               user.Image));
+            return Ok(isUserUpdated);
         }
 
         [HttpPatch("{id}")]
@@ -50,5 +60,23 @@ namespace MediNet.Controllers
             await _mediator.Send(new DeleteUserCommand(id));
             return Ok();
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginUser([FromBody] LoginUserCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
+
+        [HttpPost("loginGoogle")]
+        public async Task<IActionResult> LoginUserByGoogle([FromBody] string credential)
+        {
+            return Ok(await _mediator.Send(new LoginGoogleCommand(credential)));
+        }
+
+        //[HttpPost("refresh")]
+        //public async Task<IActionResult> Refresh([FromBody] RefreshUserCommand command)
+        //{
+        //    return Ok(await _mediator.Send(command));
+        //}
     }
 }

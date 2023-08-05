@@ -17,7 +17,6 @@ namespace MediNet.Configurations
             builder.HasOne(x => x.Post).WithMany(x => x.Notifications).HasForeignKey(x => x.PostId).OnDelete(DeleteBehavior.Cascade);
             builder.HasOne(x => x.Comment).WithMany(x => x.Notifications).HasForeignKey(x => x.CommentId).OnDelete(DeleteBehavior.Cascade);
             builder.HasOne(x => x.Following).WithMany(x => x.Notifications).HasForeignKey(x => x.FollowingId).OnDelete(DeleteBehavior.Cascade);
-            builder.HasOne(x => x.GroupUser).WithMany(x => x.Notifications).HasForeignKey(x => x.GroupUserId).OnDelete(DeleteBehavior.Cascade);
             builder.HasOne(x => x.Reaction).WithMany(x => x.Notifications).HasForeignKey(x => x.ReactionId).OnDelete(DeleteBehavior.Cascade);
         }
     }

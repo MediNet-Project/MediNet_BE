@@ -18,11 +18,12 @@ namespace MediNet.Handlers.Users
             var newUser = new User()
             {
                 Email = command.Email,
-                Password = command.Password,
+                UserName = command.UserName,
+                Password = BCrypt.Net.BCrypt.HashPassword(command.Password),
                 Role = command.Role,
                 Position = command.Position,
                 Phone = command.Phone,
-                Image = command.Image,
+                Image = null,
                 IsDeleted = false
             };
             await _unitOfWork.Repository<User>().AddAsync(newUser);

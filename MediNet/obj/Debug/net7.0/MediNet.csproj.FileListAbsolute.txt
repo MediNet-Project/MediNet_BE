@@ -47,3 +47,17 @@ C:\Users\Asus PC\source\repos\MediNet\MediNet\obj\Debug\net7.0\refint\MediNet.dl
 C:\Users\Asus PC\source\repos\MediNet\MediNet\obj\Debug\net7.0\MediNet.pdb
 C:\Users\Asus PC\source\repos\MediNet\MediNet\obj\Debug\net7.0\MediNet.genruntimeconfig.cache
 C:\Users\Asus PC\source\repos\MediNet\MediNet\obj\Debug\net7.0\ref\MediNet.dll
+C:\Users\Asus PC\source\repos\MediNet\MediNet\bin\Debug\net7.0\BCrypt.Net-Next.dll
+C:\Users\Asus PC\source\repos\MediNet\MediNet\bin\Debug\net7.0\Google.Apis.dll
+C:\Users\Asus PC\source\repos\MediNet\MediNet\bin\Debug\net7.0\Google.Apis.Auth.PlatformServices.dll
+C:\Users\Asus PC\source\repos\MediNet\MediNet\bin\Debug\net7.0\Google.Apis.Auth.dll
+C:\Users\Asus PC\source\repos\MediNet\MediNet\bin\Debug\net7.0\Google.Apis.Core.dll
+C:\Users\Asus PC\source\repos\MediNet\MediNet\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Asus PC\source\repos\MediNet\MediNet\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Asus PC\source\repos\MediNet\MediNet\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\Asus PC\source\repos\MediNet\MediNet\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\Asus PC\source\repos\MediNet\MediNet\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\Asus PC\source\repos\MediNet\MediNet\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Asus PC\source\repos\MediNet\MediNet\bin\Debug\net7.0\Newtonsoft.Json.dll
+C:\Users\Asus PC\source\repos\MediNet\MediNet\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Asus PC\source\repos\MediNet\MediNet\bin\Debug\net7.0\CloudinaryDotNet.dll

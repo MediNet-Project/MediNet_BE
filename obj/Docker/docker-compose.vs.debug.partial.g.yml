@@ -3,7 +3,7 @@ version: '3.4'
 services:
   medinet:
     image: medinet:dev
-    container_name: MediNet
+    container_name: MediNet_1
     build:
       target: base
       labels:

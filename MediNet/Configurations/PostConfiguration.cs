@@ -18,7 +18,6 @@ namespace MediNet.Configurations
             builder.Property(x => x.CreatedAt).IsRequired(false);
 
             builder.HasOne(x => x.User).WithMany(x => x.Posts).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
-            builder.HasOne(x => x.Group).WithMany(x => x.Posts).HasForeignKey(x => x.GroupId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

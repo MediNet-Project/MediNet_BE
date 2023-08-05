@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   medinet:
-    container_name: MediNet
+    container_name: MediNet_1
     build:
       labels:
         com.microsoft.created-by: "visual-studio"

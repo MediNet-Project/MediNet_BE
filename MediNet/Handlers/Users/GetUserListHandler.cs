@@ -15,8 +15,8 @@ namespace MediNet.Handlers.Users
 
         public async Task<List<User>> Handle(GetUserListQuery query, CancellationToken cancellationToken)
         {
-            var projects = await _unitOfWork.UserRepository.GetUserListAsync();
-            return projects;
+            var users = await _unitOfWork.UserRepository.GetUserListAsync();
+            return users;
         }
     }
 }
