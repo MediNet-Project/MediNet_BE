@@ -63,13 +63,16 @@ namespace MediNet.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<bool?>("IsBlocked")
+                        .HasColumnType("boolean");
+
                     b.Property<bool?>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<int?>("PostId")
+                    b.Property<int>("PostId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -92,12 +95,14 @@ namespace MediNet.Migrations
                     b.Property<int?>("FollowerId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int?>("FollowingId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("FollowerId");
+
+                    b.HasIndex("FollowingId");
 
                     b.ToTable("Followings", (string)null);
                 });
@@ -167,10 +172,13 @@ namespace MediNet.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<bool?>("IsBlocked")
+                        .HasColumnType("boolean");
+
                     b.Property<bool?>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -272,12 +280,14 @@ namespace MediNet.Migrations
                     b.HasOne("MediNet.Models.Post", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
 
                     b.HasOne("MediNet.Models.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
 
                     b.Navigation("Post");
 
@@ -286,12 +296,19 @@ namespace MediNet.Migrations
 
             modelBuilder.Entity("MediNet.Models.Following", b =>
                 {
-                    b.HasOne("MediNet.Models.User", "User")
+                    b.HasOne("MediNet.Models.User", "Followers")
                         .WithMany("Followings")
                         .HasForeignKey("FollowerId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.Navigation("User");
+                    b.HasOne("MediNet.Models.User", "Followings")
+                        .WithMany("Followers")
+                        .HasForeignKey("FollowingId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Followers");
+
+                    b.Navigation("Followings");
                 });
 
             modelBuilder.Entity("MediNet.Models.Notification", b =>
@@ -337,7 +354,8 @@ namespace MediNet.Migrations
                     b.HasOne("MediNet.Models.User", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -388,6 +406,8 @@ namespace MediNet.Migrations
             modelBuilder.Entity("MediNet.Models.User", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Followers");
 
                     b.Navigation("Followings");
 

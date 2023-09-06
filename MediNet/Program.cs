@@ -61,8 +61,17 @@ builder.Services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<IFollowRepository, FollowRepository>();
 builder.Services.AddScoped<IPostRepository, PostRepository>();
 builder.Services.AddScoped<ITokenService, TokenServices>();
+builder.Services.AddScoped<ICloudinaryService>(provider =>
+{
+    IConfiguration configuration = provider.GetService<IConfiguration>();
+    string cloudName = configuration["Cloudinary:CloudName"];
+    string apiKey = configuration["Cloudinary:ApiKey"];
+    string apiSecret = configuration["Cloudinary:ApiSecret"];
+    return new CloudinaryService(cloudName, apiKey, apiSecret);
+});
 builder.Services.AddDbContext<ApplicationDbContext>(x => x.UseNpgsql(connectionString));
 
 
@@ -79,7 +88,7 @@ if (app.Environment.IsDevelopment())
 //app.UseSwagger();
 //app.UseSwaggerUI();
 
-app.UseMiddleware<ErrorHandlerMiddleware>();
+//app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 

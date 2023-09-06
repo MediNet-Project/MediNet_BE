@@ -11,13 +11,16 @@ namespace MediNet.Repositories
         private bool disposed;
         public IUserRepository UserRepository { get; } 
         public ICommentRepository CommentRepository { get; }
+
+        public IFollowRepository FollowRepository { get; }
         public IPostRepository PostRepository { get; }
-        public UnitOfWork(ApplicationDbContext dbContext, IUserRepository userRepository, ICommentRepository commentRepository, IPostRepository postRepository)
+        public UnitOfWork(ApplicationDbContext dbContext, IUserRepository userRepository, ICommentRepository commentRepository, IPostRepository postRepository, IFollowRepository followRepository)
         {
             _dbContext = dbContext;
             UserRepository = userRepository;
             CommentRepository = commentRepository;
             PostRepository = postRepository;
+            FollowRepository = followRepository;
         }
         public void Dispose()
         {

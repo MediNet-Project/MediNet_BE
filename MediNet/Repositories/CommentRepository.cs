@@ -17,7 +17,7 @@ namespace MediNet.Repositories
 
         public async Task<List<Comment>> GetCommentListAsync()
         {
-            var comments = await _dbContext.Comments.ToListAsync();
+            var comments = await _dbContext.Comments.Where(x => x.IsBlocked == false).ToListAsync();
             return comments;
         }
 
@@ -30,6 +30,22 @@ namespace MediNet.Repositories
         {
             var filteredData = _dbContext.Comments.Where(x => x.Id == Id).FirstOrDefault();
             _dbContext.Comments.Remove(filteredData);
+            return await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<int> BlockCommentAsync(int Id)
+        {
+            var commentToBlock = _dbContext.Comments.FirstOrDefault(x => x.Id == Id);
+            commentToBlock.IsBlocked = true;
+            _dbContext.Comments.Update(commentToBlock);
+            return await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<int> UnBlockCommentAsync(int Id)
+        {
+            var commentToUnBlock = _dbContext.Comments.FirstOrDefault(x => x.Id == Id);
+            commentToUnBlock.IsBlocked = false;
+            _dbContext.Comments.Update(commentToUnBlock);
             return await _dbContext.SaveChangesAsync();
         }
 

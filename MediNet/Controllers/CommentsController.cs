@@ -6,10 +6,11 @@ using MediNet.Queries.Conments;
 using MediNet.Queries.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace MediNet.Controllers
 {
-    [Route("api/comment")]
+    [Route("api/comments")]
     [ApiController]
     public class CommentsController : ControllerBase
     {
@@ -19,42 +20,52 @@ namespace MediNet.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost]
+        [HttpPost("create-comment")]
         public async Task<IActionResult> CreateComment([FromBody] CreateCommentCommand command)
         {
             await _mediator.Send(command);
             return Ok();
         }
 
-        [HttpGet]
+        [HttpGet("get-list-comment")]
         public async Task<IActionResult> GetCommentList()
         {
             var listComment = await _mediator.Send(new GetCommentListQuery());
             return Ok(listComment);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("get-comment/{id}")]
         public async Task<IActionResult> GetCommentById(int id)
         {
             var findComment = await _mediator.Send(new GetCommentByIdQuery(id));
             return Ok(findComment);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateComment(Comment comment)
+        [HttpPut("update-comment")]
+        public async Task<IActionResult> UpdateComment([FromBody] UpdateCommentCommand command)
         {
-            var isCommentUpdated = await _mediator.Send(new UpdateCommentCommand(
-               comment.Id,
-               comment.Content,
-               comment.UserId,
-               comment.PostId));
-            return Ok(isCommentUpdated);
+            await _mediator.Send(command);
+            return Ok();
         }
 
-        [HttpPatch("{id}")]
+        [HttpPatch("delete-comment/{id}")]
         public async Task<IActionResult> DeleteComment(int id)
         {
             await _mediator.Send(new DeleteCommentCommand(id));
+            return Ok();
+        }
+
+        [HttpPatch("block-comment/{id}")]
+        public async Task<IActionResult> BlockComment(int id)
+        {
+            await _mediator.Send(new BlockCommentCommand(id));
+            return Ok();
+        }
+
+        [HttpPatch("unblock-comment/{id}")]
+        public async Task<IActionResult> UnBlockComment(int id)
+        {
+            await _mediator.Send(new UnBlockCommentCommand(id));
             return Ok();
         }
     }

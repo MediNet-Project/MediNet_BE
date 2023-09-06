@@ -12,8 +12,8 @@ namespace MediNet.Configurations
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).UseIdentityColumn();
 
-            builder.HasOne(x => x.User).WithMany(x => x.Followings).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
-            builder.HasOne(x => x.User).WithMany(x => x.Followings).HasForeignKey(x => x.FollowerId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(x => x.Followers).WithMany(x => x.Followings).HasForeignKey(x => x.FollowerId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(x => x.Followings).WithMany(x => x.Followers).HasForeignKey(x => x.FollowingId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

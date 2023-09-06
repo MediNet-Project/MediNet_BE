@@ -9,6 +9,11 @@
         public string? Position { get; set; }
         public string? Phone { get; set; }
         public string? Image { get; set; }
+        public int? PostCount { get; set; }
         public bool? IsDeleted { get; set; }
+
+
+        public List<FollowDTO>? FollowerDTO { get; set; }
+        public List<FollowDTO>? FollowingDTO { get; set; }
     }
 }

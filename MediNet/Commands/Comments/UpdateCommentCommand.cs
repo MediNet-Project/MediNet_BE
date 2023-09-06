@@ -6,10 +6,10 @@ namespace MediNet.Commands.Comments
     {
         public int Id { get; set; }
         public string? Content { get; set; }
-        public int? UserId { get; set; }
-        public int? PostId { get; set; }
+        public int UserId { get; set; }
+        public int PostId { get; set; }
 
-        public UpdateCommentCommand(int id, string content, int? userId, int? postId)
+        public UpdateCommentCommand(int id, string content, int userId, int postId)
         {
             Id = id;
             Content = content;

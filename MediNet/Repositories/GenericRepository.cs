@@ -23,9 +23,6 @@ namespace MediNet.Repositories
 
         public Task DeleteAsync(T entity)
         {
-            //var filteredData = _dbContext.Set<T>().;
-            //_dbContext.Set<T>().Remove(filteredData);
-            //return await _dbContext.SaveChangesAsync();
             _dbContext.Set<T>().Remove(entity);
             return Task.CompletedTask;
         }

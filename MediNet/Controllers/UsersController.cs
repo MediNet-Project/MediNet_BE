@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using MediNet.Commands.Users;
 using MediNet.Models;
+using MediNet.Queries.Posts;
 using MediNet.Queries.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,18 @@ namespace MediNet.Controllers
         public UsersController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginUser([FromBody] LoginUserCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
+
+        [HttpPost("loginGoogle")]
+        public async Task<IActionResult> LoginUserByGoogle([FromBody] string credential)
+        {
+            return Ok(await _mediator.Send(new LoginGoogleCommand(credential)));
         }
 
         [HttpPost("create-user")]
@@ -39,19 +52,30 @@ namespace MediNet.Controllers
             return Ok(findUser);
         }
 
-        [HttpPut("update-user")]
-        public async Task<IActionResult> UpdateUser(User user)
+        [HttpGet("get-user-has-most-post")]
+        public async Task<IActionResult> GetMostLikePostList()
         {
-            var isUserUpdated = await _mediator.Send(new UpdateUserCommand(
-               user.Id,
-               user.UserName,
-               user.Email,
-               user.Password,
-               user.Role,
-               user.Position,
-               user.Phone,
-               user.Image));
-            return Ok(isUserUpdated);
+            var listUserHasMostPost = await _mediator.Send(new GetUserHasMostPostQuery());
+            return Ok(listUserHasMostPost);
+        }
+
+        [HttpPut("update-user")]
+        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserCommand command)
+        {           
+            return Ok(await _mediator.Send(command));
+        }
+
+        [HttpPut("update-image-user")]
+        public async Task<IActionResult> UpdateImageUser([FromForm] UpdateImageCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
+
+        [HttpPatch("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] UpdatePasswordCommand command)
+        {
+            await _mediator.Send(command);
+            return Ok();
         }
 
         [HttpPatch("{id}")]
@@ -61,17 +85,7 @@ namespace MediNet.Controllers
             return Ok();
         }
 
-        [HttpPost("login")]
-        public async Task<IActionResult> LoginUser([FromBody] LoginUserCommand command)
-        {
-            return Ok(await _mediator.Send(command));
-        }
-
-        [HttpPost("loginGoogle")]
-        public async Task<IActionResult> LoginUserByGoogle([FromBody] string credential)
-        {
-            return Ok(await _mediator.Send(new LoginGoogleCommand(credential)));
-        }
+        
 
         //[HttpPost("refresh")]
         //public async Task<IActionResult> Refresh([FromBody] RefreshUserCommand command)

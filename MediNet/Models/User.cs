@@ -14,6 +14,7 @@
         public ICollection<Post>? Posts { get; set; }
         public ICollection<Comment>? Comments { get; set; }
         public ICollection<Following>? Followings { get; set; }
+        public ICollection<Following>? Followers { get; set; }
         public ICollection<Reaction>? Reactions { get; set; }
         public ICollection<Notification>? Notifications { get; set; }
         public string? RefreshToken { get; set; }

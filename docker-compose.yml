@@ -20,6 +20,8 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
   medinet:
     image: ${DOCKER_REGISTRY-}medinet
     build:

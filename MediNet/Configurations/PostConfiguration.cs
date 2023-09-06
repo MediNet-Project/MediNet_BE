@@ -14,6 +14,7 @@ namespace MediNet.Configurations
             builder.Property(x => x.Content).IsRequired(false).HasMaxLength(2000);
             builder.Property(x => x.Image).IsRequired(false).HasMaxLength(100);
             builder.Property(x => x.IsDeleted).IsRequired(false);
+            builder.Property(x => x.IsBlocked).IsRequired(false);
             builder.Property(x => x.CreatedBy).IsRequired(false).HasMaxLength(100);
             builder.Property(x => x.CreatedAt).IsRequired(false);
 

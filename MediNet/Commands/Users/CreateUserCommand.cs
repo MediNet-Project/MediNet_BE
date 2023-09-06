@@ -13,7 +13,7 @@ namespace MediNet.Commands.Users
         public string? Phone { get; set; }
         public string? Image { get; set; }
        
-        public CreateUserCommand(string email, string userName, string password, string role, string position, string phone, string image)
+        /*public CreateUserCommand(string email, string userName, string password, string role, string position, string phone, IFormFile image)
         {
             UserName = userName;
             Email = email;  
@@ -22,6 +22,6 @@ namespace MediNet.Commands.Users
             Position = position;
             Phone = phone;
             Image = image;
-        }
+        }*/
     }
 }

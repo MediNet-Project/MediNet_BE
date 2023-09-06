@@ -14,9 +14,9 @@ services:
     - -f
     - /dev/null
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
-      ASPNETCORE_URLS: https://+:443;http://+:80
+      CONNECTIONSTRINGS__DEFAULTCONNECTION: Server=postgressql; Port=5432; Database=MediNet;
+        Username=postgres; Password=thanh;
       DOTNET_USE_POLLING_FILE_WATCHER: "1"
       NUGET_FALLBACK_PACKAGES: /root/.nuget/fallbackpackages
     image: medinet:dev
@@ -32,9 +32,7 @@ services:
     ports:
     - mode: ingress
       target: 80
-      protocol: tcp
-    - mode: ingress
-      target: 443
+      published: "4202"
       protocol: tcp
     tty: true
     volumes:
@@ -47,6 +45,18 @@ services:
     - type: bind
       source: C:\Users\Asus PC\source\repos\MediNet\MediNet
       target: /app
+      bind:
+        create_host_path: true
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: /etc/timezone
+      target: /etc/timezone
+      read_only: true
       bind:
         create_host_path: true
     - type: bind
@@ -83,6 +93,56 @@ services:
       target: /src
       bind:
         create_host_path: true
+  postgressql:
+    container_name: postgressql
+    environment:
+      POSTGRES_MULTIPLE_DATABASES: MediNet
+      POSTGRES_PASSWORD: thanh
+      POSTGRES_USER: postgres
+      TZ: Asia/Ho_Chi_Minh
+    image: postgres
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 5432
+      published: "5432"
+      protocol: tcp
+    restart: always
+    volumes:
+    - type: volume
+      source: postgres_data
+      target: /var/lib/postgresql/data
+      volume: {}
+    - type: bind
+      source: /etc/timezone
+      target: /etc/timezone
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
+  redisstack:
+    container_name: redis-stack
+    image: redis/redis-stack
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 6379
+      published: "6379"
+      protocol: tcp
+    - mode: ingress
+      target: 8001
+      published: "8001"
+      protocol: tcp
 networks:
   default:
     name: dockercompose3549007064628857325_default
+volumes:
+  postgres_data:
+    name: dockercompose3549007064628857325_postgres_data

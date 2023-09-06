@@ -41,7 +41,7 @@ namespace MediNet.Handlers.Users
             {
                 new Claim("Id", user.Id.ToString()),
                 new Claim("Email", user.Email),
-                new Claim("Role", user.Role)
+                new Claim("Role", user.Role),
             };
             var accessToken = _tokenService.GenerateAccessToken(claims);
             var refreshToken = _tokenService.GenerateRefreshToken();
