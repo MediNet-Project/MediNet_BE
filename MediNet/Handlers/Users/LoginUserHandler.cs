@@ -42,6 +42,8 @@ namespace MediNet.Handlers.Users
                 new Claim("Id", user.Id.ToString()),
                 new Claim("Email", user.Email),
                 new Claim("Role", user.Role),
+                new Claim("UserName", user.UserName),
+                new Claim("Image", user.Image == null ? "" : user.Image),
             };
             var accessToken = _tokenService.GenerateAccessToken(claims);
             var refreshToken = _tokenService.GenerateRefreshToken();

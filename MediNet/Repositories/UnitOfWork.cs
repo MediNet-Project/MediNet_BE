@@ -11,16 +11,19 @@ namespace MediNet.Repositories
         private bool disposed;
         public IUserRepository UserRepository { get; } 
         public ICommentRepository CommentRepository { get; }
-
+        public INotificationRepository NotificationRepository { get; }
+        public IUserNotificationRepository UserNotificationRepository { get; }
         public IFollowRepository FollowRepository { get; }
         public IPostRepository PostRepository { get; }
-        public UnitOfWork(ApplicationDbContext dbContext, IUserRepository userRepository, ICommentRepository commentRepository, IPostRepository postRepository, IFollowRepository followRepository)
+        public UnitOfWork(ApplicationDbContext dbContext, IUserRepository userRepository, ICommentRepository commentRepository, IPostRepository postRepository, IFollowRepository followRepository, INotificationRepository notificationRepository, IUserNotificationRepository userNotificationRepository)
         {
             _dbContext = dbContext;
             UserRepository = userRepository;
             CommentRepository = commentRepository;
             PostRepository = postRepository;
             FollowRepository = followRepository;
+            NotificationRepository = notificationRepository;
+            UserNotificationRepository = userNotificationRepository;
         }
         public void Dispose()
         {

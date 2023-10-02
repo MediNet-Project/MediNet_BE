@@ -1,4 +1,4 @@
-﻿namespace MediNet.Models
+﻿    namespace MediNet.Models
 {
     public class Post : Common
     {

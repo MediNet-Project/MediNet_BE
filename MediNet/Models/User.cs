@@ -16,7 +16,7 @@
         public ICollection<Following>? Followings { get; set; }
         public ICollection<Following>? Followers { get; set; }
         public ICollection<Reaction>? Reactions { get; set; }
-        public ICollection<Notification>? Notifications { get; set; }
+        public ICollection<UserNotification>? UserNotifications { get; set; }
         public string? RefreshToken { get; set; }
         public DateTimeOffset? RefreshTokenExpiryTime { get; set; }
     }

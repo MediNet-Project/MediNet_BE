@@ -1,5 +1,8 @@
 ﻿using MediNet.Context;
+using MediNet.DTOs;
+using MediNet.Models;
 using MediNet.Repositories.IRepositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace MediNet.Repositories
 {
@@ -11,6 +14,23 @@ namespace MediNet.Repositories
         {
             _dbContext = dbContext;
 
+        }
+        public async Task<List<FollowDTO>> GetFollowListAsync()
+        {
+            /*var follows = await _dbContext.Followings.ToListAsync();
+            return follows;*/
+            var follows = await _dbContext.Followings.Select(f => new FollowDTO
+            {
+                Id = f.Id,
+                FollowerId = f.FollowerId,
+                FollowingId = f.FollowingId,
+                UserName = f.Followings.UserName,
+                Email = f.Followings.Email,
+                Position = f.Followings.Position,
+                Phone = f.Followings.Phone,
+                Image = f.Followings.Image
+            }).ToListAsync();
+            return follows;
         }
 
         public async Task<int> DeleteFollowAsync(int Id)

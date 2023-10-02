@@ -121,7 +121,7 @@ namespace MediNet.Repositories
                     Like = true
                 };
 
-                _dbContext.Reactions.Add(reactionToLike);
+                await _dbContext.Reactions.AddAsync(reactionToLike);
                 await _dbContext.SaveChangesAsync();
                 return reactionToLike;
             }

@@ -31,3 +31,4 @@ C:\Users\Asus PC\source\repos\MediNet\bin\Debug\Google.Apis.Core.dll
 C:\Users\Asus PC\source\repos\MediNet\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Asus PC\source\repos\MediNet\bin\Debug\Google.Apis.dll
 C:\Users\Asus PC\source\repos\MediNet\bin\Debug\CloudinaryDotNet.dll
+C:\Users\Asus PC\source\repos\MediNet\bin\Debug\Microsoft.Extensions.Options.dll

@@ -6,6 +6,8 @@
         IUserRepository UserRepository { get; }
         IPostRepository PostRepository { get; }
         IFollowRepository FollowRepository { get; }
+        INotificationRepository NotificationRepository { get; }
+        IUserNotificationRepository UserNotificationRepository { get; }
         ICommentRepository CommentRepository { get; }
         Task<int> Save(CancellationToken cancellationToken);
         Task<int> SaveAndRemoveCache(CancellationToken cancellationToken, params string[] cacheKeys);

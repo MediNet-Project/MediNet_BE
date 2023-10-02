@@ -15,12 +15,10 @@ namespace MediNet.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly ApplicationDbContext _dbContext;
-        private readonly IConfiguration _configuration;
 
-        public UserRepository(ApplicationDbContext dbContext, IConfiguration configuration)
+        public UserRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
-            _configuration = configuration;
 
         }
         public async Task<UserDTO> GetUserByIdAsync(int id)

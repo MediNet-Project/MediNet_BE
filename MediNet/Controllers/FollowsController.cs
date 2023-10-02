@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using MediNet.Commands.Comments;
 using MediNet.Commands.Follows;
+using MediNet.Queries.Conments;
+using MediNet.Queries.Followings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +23,13 @@ namespace MediNet.Controllers
         {
             await _mediator.Send(command);
             return Ok();
+        }
+
+        [HttpGet("get-list-follow")]
+        public async Task<IActionResult> GetfollowList()
+        {
+            var listFollow = await _mediator.Send(new GetFollowListQuery());
+            return Ok(listFollow);
         }
 
         [HttpPatch("delete-follow/{id}")]

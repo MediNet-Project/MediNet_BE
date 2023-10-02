@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MediNet.Migrations
 {
     /// <inheritdoc />
-    public partial class addModel : Migration
+    public partial class createDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -40,7 +40,7 @@ namespace MediNet.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<int>(type: "integer", nullable: true),
+                    FollowingId = table.Column<int>(type: "integer", nullable: true),
                     FollowerId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
@@ -49,6 +49,12 @@ namespace MediNet.Migrations
                     table.ForeignKey(
                         name: "FK_Followings_Users_FollowerId",
                         column: x => x.FollowerId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Followings_Users_FollowingId",
+                        column: x => x.FollowingId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -62,9 +68,10 @@ namespace MediNet.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Content = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true),
                     Image = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    UserId = table.Column<int>(type: "integer", nullable: true),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: true),
                     CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    IsBlocked = table.Column<bool>(type: "boolean", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
@@ -105,10 +112,11 @@ namespace MediNet.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Content = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true),
-                    UserId = table.Column<int>(type: "integer", nullable: true),
-                    PostId = table.Column<int>(type: "integer", nullable: true),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    PostId = table.Column<int>(type: "integer", nullable: false),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: true),
                     CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    IsBlocked = table.Column<bool>(type: "boolean", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
@@ -161,12 +169,18 @@ namespace MediNet.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Content = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
-                    PostId = table.Column<int>(type: "integer", nullable: true),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    Content = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
+                    EntityId = table.Column<int>(type: "integer", nullable: true),
+                    CreatedDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     CommentId = table.Column<int>(type: "integer", nullable: true),
                     FollowingId = table.Column<int>(type: "integer", nullable: true),
+                    PostId = table.Column<int>(type: "integer", nullable: true),
                     ReactionId = table.Column<int>(type: "integer", nullable: true),
-                    UserId = table.Column<int>(type: "integer", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: true),
+                    CreatedBy = table.Column<string>(type: "text", nullable: true),
+                    IsBlocked = table.Column<bool>(type: "boolean", nullable: true),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -175,28 +189,46 @@ namespace MediNet.Migrations
                         name: "FK_Notifications_Comments_CommentId",
                         column: x => x.CommentId,
                         principalTable: "Comments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Notifications_Followings_FollowingId",
                         column: x => x.FollowingId,
                         principalTable: "Followings",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Notifications_Posts_PostId",
                         column: x => x.PostId,
                         principalTable: "Posts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Notifications_Reactions_ReactionId",
                         column: x => x.ReactionId,
                         principalTable: "Reactions",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserNotification",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    NotificationId = table.Column<int>(type: "integer", nullable: false),
+                    IsSeen = table.Column<bool>(type: "boolean", nullable: false),
+                    IsRead = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserNotification", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserNotification_Notifications_NotificationId",
+                        column: x => x.NotificationId,
+                        principalTable: "Notifications",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Notifications_Users_UserId",
+                        name: "FK_UserNotification_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -224,6 +256,11 @@ namespace MediNet.Migrations
                 column: "FollowerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Followings_FollowingId",
+                table: "Followings",
+                column: "FollowingId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Notifications_CommentId",
                 table: "Notifications",
                 column: "CommentId");
@@ -244,11 +281,6 @@ namespace MediNet.Migrations
                 column: "ReactionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Notifications_UserId",
-                table: "Notifications",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Posts_UserId",
                 table: "Posts",
                 column: "UserId");
@@ -262,6 +294,16 @@ namespace MediNet.Migrations
                 name: "IX_Reactions_UserId",
                 table: "Reactions",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserNotification_NotificationId",
+                table: "UserNotification",
+                column: "NotificationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserNotification_UserId",
+                table: "UserNotification",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -269,6 +311,9 @@ namespace MediNet.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Attachments");
+
+            migrationBuilder.DropTable(
+                name: "UserNotification");
 
             migrationBuilder.DropTable(
                 name: "Notifications");

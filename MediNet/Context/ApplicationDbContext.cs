@@ -19,6 +19,7 @@ namespace MediNet.Context
             modelBuilder.ApplyConfiguration(new PostConfiguration());
             modelBuilder.ApplyConfiguration(new ReactionConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new UserNotificationConfiguration());
         }
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<Comment> Comments { get; set; }
@@ -27,5 +28,6 @@ namespace MediNet.Context
         public DbSet<Post> Posts { get; set; }
         public DbSet<Reaction> Reactions { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<UserNotification> UserNotifications { get; internal set; }
     }
 }

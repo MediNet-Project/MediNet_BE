@@ -61,3 +61,7 @@ C:\Users\Asus PC\source\repos\MediNet\MediNet\bin\Debug\net7.0\Microsoft.Identit
 C:\Users\Asus PC\source\repos\MediNet\MediNet\bin\Debug\net7.0\Newtonsoft.Json.dll
 C:\Users\Asus PC\source\repos\MediNet\MediNet\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
 C:\Users\Asus PC\source\repos\MediNet\MediNet\bin\Debug\net7.0\CloudinaryDotNet.dll
+C:\Users\Asus PC\source\repos\MediNet\MediNet\bin\Debug\net7.0\Microsoft.AspNetCore.Connections.Abstractions.dll
+C:\Users\Asus PC\source\repos\MediNet\MediNet\bin\Debug\net7.0\Microsoft.AspNetCore.SignalR.Common.dll
+C:\Users\Asus PC\source\repos\MediNet\MediNet\bin\Debug\net7.0\Microsoft.Extensions.Features.dll
+C:\Users\Asus PC\source\repos\MediNet\MediNet\bin\Debug\net7.0\Microsoft.Extensions.Options.dll
