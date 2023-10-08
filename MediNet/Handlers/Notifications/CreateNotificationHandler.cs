@@ -22,7 +22,7 @@ namespace MediNet.Handlers.Notifications
             {
                 Type = (Models.Enums.Type)command.Type,
                 Content = command.Content,
-                EntityId = (command.EntityId == 0 || command.EntityId == null) ? null : command.EntityId,
+                EntityId = (command.EntityId == 0 || command.EntityId == null) ? null : command.EntityId
             };
             await _unitOfWork.Repository<Notification>().AddAsync(newNotification);
             await _unitOfWork.Save(cancellationToken);

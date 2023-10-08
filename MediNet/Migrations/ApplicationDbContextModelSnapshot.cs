@@ -308,7 +308,7 @@ namespace MediNet.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserNotification");
+                    b.ToTable("UserNotifications", (string)null);
                 });
 
             modelBuilder.Entity("MediNet.Models.Attachment", b =>
