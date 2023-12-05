@@ -67,6 +67,13 @@ namespace MediNet.Controllers
             return Ok();
         }
 
+        /*[HttpPost("{entityType}/{entityId}")]
+        public async Task<IActionResult> Toggle([FromRoute] int entityType, int entityId)
+        {
+            var userId = int.Parse(User.FindFirst("id")?.Value);
+            return Ok(await _mediator.Send(new ToggleReactionCommand(userId, entityType, entityId)));
+        }*/
+
         [HttpPatch("{id}")]
         public async Task<IActionResult> DeletePost(int id)
         {

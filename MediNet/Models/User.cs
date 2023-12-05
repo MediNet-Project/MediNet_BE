@@ -11,13 +11,13 @@
         public string? Phone { get; set; }
         public string? Image { get; set; }
         public bool? IsDeleted { get; set; }
+        public string? RefreshToken { get; set; }
         public ICollection<Post>? Posts { get; set; }
         public ICollection<Comment>? Comments { get; set; }
         public ICollection<Following>? Followings { get; set; }
         public ICollection<Following>? Followers { get; set; }
         public ICollection<Reaction>? Reactions { get; set; }
         public ICollection<UserNotification>? UserNotifications { get; set; }
-        public string? RefreshToken { get; set; }
         public DateTimeOffset? RefreshTokenExpiryTime { get; set; }
     }
 }

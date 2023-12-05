@@ -22,28 +22,6 @@ namespace MediNet.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("MediNet.Models.Attachment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("FileName")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
-
-                    b.Property<int?>("PostId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PostId");
-
-                    b.ToTable("Attachments", (string)null);
-                });
-
             modelBuilder.Entity("MediNet.Models.Comment", b =>
                 {
                     b.Property<int>("Id")
@@ -115,9 +93,6 @@ namespace MediNet.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CommentId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Content")
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
@@ -135,33 +110,16 @@ namespace MediNet.Migrations
                     b.Property<int?>("EntityId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("FollowingId")
-                        .HasColumnType("integer");
-
                     b.Property<bool?>("IsBlocked")
                         .HasColumnType("boolean");
 
                     b.Property<bool?>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<int?>("PostId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("ReactionId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("Type")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CommentId");
-
-                    b.HasIndex("FollowingId");
-
-                    b.HasIndex("PostId");
-
-                    b.HasIndex("ReactionId");
 
                     b.ToTable("Notifications", (string)null);
                 });
@@ -311,16 +269,6 @@ namespace MediNet.Migrations
                     b.ToTable("UserNotifications", (string)null);
                 });
 
-            modelBuilder.Entity("MediNet.Models.Attachment", b =>
-                {
-                    b.HasOne("MediNet.Models.Post", "Post")
-                        .WithMany("Attachments")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.Navigation("Post");
-                });
-
             modelBuilder.Entity("MediNet.Models.Comment", b =>
                 {
                     b.HasOne("MediNet.Models.Post", "Post")
@@ -355,25 +303,6 @@ namespace MediNet.Migrations
                     b.Navigation("Followers");
 
                     b.Navigation("Followings");
-                });
-
-            modelBuilder.Entity("MediNet.Models.Notification", b =>
-                {
-                    b.HasOne("MediNet.Models.Comment", null)
-                        .WithMany("Notifications")
-                        .HasForeignKey("CommentId");
-
-                    b.HasOne("MediNet.Models.Following", null)
-                        .WithMany("Notifications")
-                        .HasForeignKey("FollowingId");
-
-                    b.HasOne("MediNet.Models.Post", null)
-                        .WithMany("Notifications")
-                        .HasForeignKey("PostId");
-
-                    b.HasOne("MediNet.Models.Reaction", null)
-                        .WithMany("Notifications")
-                        .HasForeignKey("ReactionId");
                 });
 
             modelBuilder.Entity("MediNet.Models.Post", b =>
@@ -423,16 +352,6 @@ namespace MediNet.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MediNet.Models.Comment", b =>
-                {
-                    b.Navigation("Notifications");
-                });
-
-            modelBuilder.Entity("MediNet.Models.Following", b =>
-                {
-                    b.Navigation("Notifications");
-                });
-
             modelBuilder.Entity("MediNet.Models.Notification", b =>
                 {
                     b.Navigation("UserNotifications");
@@ -440,18 +359,9 @@ namespace MediNet.Migrations
 
             modelBuilder.Entity("MediNet.Models.Post", b =>
                 {
-                    b.Navigation("Attachments");
-
                     b.Navigation("Comments");
 
-                    b.Navigation("Notifications");
-
                     b.Navigation("Reactions");
-                });
-
-            modelBuilder.Entity("MediNet.Models.Reaction", b =>
-                {
-                    b.Navigation("Notifications");
                 });
 
             modelBuilder.Entity("MediNet.Models.User", b =>

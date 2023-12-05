@@ -7,7 +7,6 @@
         public int? FollowerId { get; set; }
         public User? Followers { get; set; }
         public User? Followings { get; set; }
-        public ICollection<Notification>? Notifications { get; set; }
 
     } 
 }

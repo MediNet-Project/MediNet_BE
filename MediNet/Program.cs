@@ -24,7 +24,9 @@ builder.Services.AddCors(options =>
         {
             builder.WithOrigins("http://localhost:3000")
                                 .AllowAnyHeader()
-                                .AllowAnyMethod();
+                                .AllowAnyMethod()
+                                .AllowCredentials();
+
         });
 });
 builder.Services.AddControllers();
@@ -121,8 +123,7 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.UseEndpoints(endpoints =>
-{
+app.UseEndpoints(endpoints => {
     endpoints.MapHub<NotificationHub>("/notification");
 });
 

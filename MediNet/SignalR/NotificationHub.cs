@@ -20,16 +20,16 @@ namespace MediNet.SignalR
             }
         }
 
-        public override Task OnConnectedAsync()
+        public override async Task OnConnectedAsync()
         {
             ConnectedUsers.TryAdd(int.Parse(Context.User.FindFirst("id").Value), Context.ConnectionId);
-            return base.OnConnectedAsync();
+            await base.OnConnectedAsync();
         }
 
-        public override Task OnDisconnectedAsync(Exception exception)
+        public override async Task OnDisconnectedAsync(Exception exception)
         {
             ConnectedUsers.TryRemove(int.Parse(Context.User.FindFirst("id").Value), out _);
-            return base.OnDisconnectedAsync(exception);
+            await base.OnDisconnectedAsync(exception);
         }
     }
 }

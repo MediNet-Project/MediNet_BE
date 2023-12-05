@@ -7,22 +7,19 @@ services:
       labels:
         com.microsoft.created-by: visual-studio
         com.microsoft.visual-studio.project-name: MediNet
-      target: base
     container_name: MediNet
     entrypoint:
     - tail
     - -f
     - /dev/null
     environment:
-      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
       CONNECTIONSTRINGS__DEFAULTCONNECTION: Server=postgressql; Port=5432; Database=MediNet;
         Username=postgres; Password=thanh;
-      DOTNET_USE_POLLING_FILE_WATCHER: "1"
-      NUGET_FALLBACK_PACKAGES: /root/.nuget/fallbackpackages
-    image: medinet:dev
+    image: medinet
     labels:
+      com.microsoft.visual-studio.project-name: MediNet
       com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages
-        --additionalProbingPath /root/.nuget/fallbackpackages  "/app/bin/Debug/net7.0/MediNet.dll"'
+        --additionalProbingPath /root/.nuget/fallbackpackages  "/app/MediNet.dll"'
       com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
         dotnet); then kill $$PID; fi"
       com.microsoft.visualstudio.debuggee.program: dotnet
@@ -40,11 +37,6 @@ services:
       source: C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Sdks\Microsoft.Docker.Sdk\tools\TokenService.Proxy\linux-x64\net7.0
       target: /TokenService.Proxy
       read_only: true
-      bind:
-        create_host_path: true
-    - type: bind
-      source: C:\Users\Asus PC\source\repos\MediNet\MediNet
-      target: /app
       bind:
         create_host_path: true
     - type: bind
@@ -74,23 +66,6 @@ services:
       source: C:\Users\Asus PC\AppData\Roaming/Microsoft/UserSecrets
       target: /root/.microsoft/usersecrets
       read_only: true
-      bind:
-        create_host_path: true
-    - type: bind
-      source: C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages
-      target: /root/.nuget/fallbackpackages
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: bind
-      source: C:\Users\Asus PC\.nuget\packages\
-      target: /root/.nuget/packages
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: bind
-      source: C:\Users\Asus PC\source\repos\MediNet
-      target: /src
       bind:
         create_host_path: true
   postgressql:

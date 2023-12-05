@@ -12,7 +12,6 @@ namespace MediNet.Context
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new AttachmentConfiguration());
             modelBuilder.ApplyConfiguration(new CommentConfiguration());
             modelBuilder.ApplyConfiguration(new FollowingConfiguration());
             modelBuilder.ApplyConfiguration(new NotificationConfiguration());
@@ -21,7 +20,6 @@ namespace MediNet.Context
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new UserNotificationConfiguration());
         }
-        public DbSet<Attachment> Attachments { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Following> Followings { get; set; }
         public DbSet<Notification> Notifications { get; set; }
